@@ -1,13 +1,10 @@
 import can
 
 class BMSController:
-    def __init__(self, channel='can0', bitrate=500000):
+    def __init__(self, bus):
         # 初始化CAN接口
-        self.bus = can.interface.Bus(
-            channel=channel,
-            bustype='socketcan',
-            bitrate=bitrate
-        )
+        self.bus = bus
+    
 
         # 状态缓存
         self.state = {

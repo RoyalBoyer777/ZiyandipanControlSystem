@@ -1,11 +1,9 @@
 import canopen
 import time
 
-class Remote:
-    def __init__(self, channel='can0', bitrate=500000, node_id=1, eds_file='motor.eds'):
-        self.network = canopen.Network()
-        self.network.connect(channel=channel, bustype='socketcan', bitrate=bitrate)
-
+class RemoteNode:
+    def __init__(self, network, node_id, eds_file):
+        self.network = network
         self.node = self.network.add_node(node_id, eds_file)
 
         # 映射PDO（使用EDS自动解析）
@@ -17,11 +15,6 @@ class Remote:
             pdo.enabled = True
         for pdo in self.node.rpdo.values():
             pdo.enabled = True
-
-    def start_node(self):
-        print("NMT: Start node")
-        self.node.nmt.state = 'OPERATIONAL'
-        time.sleep(0.5)
 
 
     # ==========================
@@ -69,3 +62,51 @@ class Remote:
         if not tpdo:
             return 127
         return tpdo.data[1]
+
+    def get_left_right(self):
+        tpdo = self.node.tpdo[2]
+        return tpdo.data[2]
+
+    # ==========================
+    # 高级接口
+    # ==========================
+    def get_velocity_cmd(self):
+        speed = self.get_speed_set()
+        fb = self.get_forward_back()
+
+        direction = (fb - 127) / 127.0
+        return speed * direction
+
+    def get_steer_cmd(self):
+        lr = self.get_left_right()
+        return (lr - 127) / 127.0
+
+    # ==========================
+    # 状态汇总
+    # ==========================
+    def get_state(self):
+        return {
+            "estop": self.is_estop(),
+            "remote_mode": self.is_remote_mode(),
+            "auto_mode": self.is_auto_mode(),
+            "parking": self.is_parking(),
+            "speed_cmd": self.get_velocity_cmd(),
+            "steer_cmd": self.get_steer_cmd()
+        }
+
+    # ==========================
+    # RXPDO：回传数据
+    # ==========================
+    def send_feedback(self, battery, speed_kmh):
+        rpdo = self.node.rpdo[1]
+
+        battery = max(0, min(100, int(battery)))
+        speed_disp = max(0, min(150, int(speed_kmh * 10)))
+
+        rpdo.data = bytearray([
+            battery,
+            speed_disp,
+            0, 0, 0, 0, 0, 0
+        ])
+
+        rpdo.transmit()

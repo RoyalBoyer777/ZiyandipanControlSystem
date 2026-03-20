@@ -4,13 +4,9 @@ import time
 
 #can总线有必要每次初始化一个类的时候都有初始化吗？不太必要，可以在主程序中初始化一次CAN总线对象，然后传递给需要使用的类，这样可以避免重复初始化和资源浪费。或者也可以设计一个单例模式的CAN总线管理类，确保全局只有一个CAN总线实例被创建和使用。
 class SteeringController:
-    def __init__(self, channel='can0', bitrate=500000):
+    def __init__(self, bus):
         # 初始化CAN总线
-        self.bus = can.interface.Bus(
-            channel=channel,
-            bustype='socketcan',
-            bitrate=bitrate
-        )
+        self.bus = bus
 
         # 前后转向打包器（各自独立rolling counter）
         self.front_packer = VCU_SES_Req()

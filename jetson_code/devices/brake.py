@@ -2,12 +2,8 @@ import can
 
 
 class BrakeController:
-    def __init__(self, channel='can0', bitrate=500000):
-        self.bus = can.interface.Bus(
-            channel=channel,
-            bustype='socketcan',
-            bitrate=bitrate
-        )
+    def __init__(self, bus):
+        self.bus = bus
 
         self.CAN_ID = 0x7B9
 
