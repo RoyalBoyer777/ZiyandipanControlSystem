@@ -1,0 +1,891 @@
+[FileInfo]
+EDSVersion=4.0
+FileName=C6049.eds
+FileVersion=0x02
+FileRevision=0x01
+Description=EDS for 6049  Canopen Slave
+CreationTime=02:32 PM
+CreationDate=08-01-2018
+CreatedBy=zhj
+ModificationTime=04:44 PM
+ModificationDate=11-21-2023
+ModifiedBy=z
+
+[DeviceInfo]
+VendorName=EDLS
+VendorNumber=0x00000449
+ProductName=C6049
+ProductNumber=0x00000001
+RevisionNumber=0x00020003
+OrderCode=60
+BaudRate_10=0
+BaudRate_20=0
+BaudRate_50=0
+BaudRate_125=1
+BaudRate_250=1
+BaudRate_500=1
+BaudRate_800=0
+BaudRate_1000=1
+SimpleBootUpMaster=0
+SimpleBootUpSlave=1
+Granularity=0x00
+DynamicChannelsSupported=0x00000000
+GroupMessaging=0
+LSS_Supported=0
+NrOfRXPDO=4
+NrOfTXPDO=4
+CompactPDO=0x00
+
+[Comments]
+Lines=1
+Line1=EDS file for GCAN4055 CANopen Slave
+
+[DummyUsage]
+Dummy0001=0
+Dummy0002=0
+Dummy0003=0
+Dummy0004=0
+Dummy0005=0
+Dummy0006=0
+Dummy0007=0
+
+[DynamicChannels]
+
+[MandatoryObjects]
+SupportedObjects=0x0003
+1=0x1000
+2=0x1001
+3=0x1018
+
+[ManufacturerObjects]
+SupportedObjects=0x0009
+1=0x2000
+2=0x3000
+3=0x3001
+4=0x3002
+5=0x3003
+6=0x3004
+7=0x3005
+8=0x3006
+9=0x3007
+
+[OptionalObjects]
+SupportedObjects=0x0014
+1=0x1005
+2=0x1008
+3=0x1016
+4=0x1017
+5=0x1400
+6=0x1401
+7=0x1402
+8=0x1403
+9=0x1600
+10=0x1601
+11=0x1602
+12=0x1603
+13=0x1800
+14=0x1801
+15=0x1802
+16=0x1803
+17=0x1A00
+18=0x1A01
+19=0x1A02
+20=0x1A03
+
+[1000]
+ParameterName=Device Type
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x00000000
+
+[1001]
+ParameterName=Error Register
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x0
+
+[1005]
+ParameterName=COB-ID SYNC message
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x80
+
+[1008]
+ParameterName=Device Name
+ObjectType=7
+AccessType=CONST
+DataType=0x0009
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=4055
+
+[1016]
+SubNumber=0x02
+ParameterName=Consumer Heartbeat time group
+ObjectType=8
+ObjFlags=0x00000000
+
+[1016sub0]
+ParameterName=Number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=1
+
+[1016sub1]
+ParameterName=Consumer Heartbeat time
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0
+
+[1017]
+ParameterName=Producer Heartbeat time group
+ObjectType=7
+AccessType=RW
+DataType=0x0006
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0
+
+[1018]
+SubNumber=0x04
+ParameterName=Identity Object
+ObjectType=9
+ObjFlags=0x00000000
+
+[1018sub0]
+ParameterName=number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=1
+HighLimit=4
+DefaultValue=3
+
+[1018sub1]
+ParameterName=Vendor ID
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x00000449
+
+[1018sub2]
+ParameterName=Product code
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x00000001
+
+[1018sub3]
+ParameterName=Revision number
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x00020003
+
+[1400]
+SubNumber=0x04
+ParameterName=Receive PDO1 parameter
+ObjectType=9
+ObjFlags=0x00000000
+
+[1400sub0]
+ParameterName=Number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=3
+
+[1400sub1]
+ParameterName=COB-ID
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=$NodeID + 0x200
+
+[1400sub2]
+ParameterName=Transmission type
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=255
+
+[1400sub3]
+ParameterName=Inhibit timer
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0
+
+[1401]
+SubNumber=0x04
+ParameterName=Receive PDO2 parameter
+ObjectType=9
+ObjFlags=0x00000000
+
+[1401sub0]
+ParameterName=Number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=3
+
+[1401sub1]
+ParameterName=COB-ID
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=$NodeID + 0x300
+
+[1401sub2]
+ParameterName=Transmission type
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=255
+
+[1401sub3]
+ParameterName=Inhibit timer
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0
+
+[1402]
+SubNumber=0x04
+ParameterName=Receive PDO3 parameter
+ObjectType=9
+ObjFlags=0x00000000
+
+[1402sub0]
+ParameterName=Number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=3
+
+[1402sub1]
+ParameterName=COB-ID
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=$NodeID + 0x400
+
+[1402sub2]
+ParameterName=Transmission type
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=255
+
+[1402sub3]
+ParameterName=Inhibit timer
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0
+
+[1403]
+SubNumber=0x04
+ParameterName=Receive PDO4 parameter
+ObjectType=9
+ObjFlags=0x00000000
+
+[1403sub0]
+ParameterName=Number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=3
+
+[1403sub1]
+ParameterName=COB-ID
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=$NodeID + 0x500
+
+[1403sub2]
+ParameterName=Transmission type
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=255
+
+[1403sub3]
+ParameterName=Inhibit timer
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0
+
+[1600]
+SubNumber=0x02
+ParameterName=Receive PDO1 mapping
+ObjectType=9
+ObjFlags=0x00000000
+
+[1600sub0]
+ParameterName=Number of mapped objects
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=5
+DefaultValue=0x1
+
+[1600sub1]
+ParameterName=1.mapped object
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x30000040
+
+[1601]
+SubNumber=0x02
+ParameterName=Receive PDO2 mapping
+ObjectType=9
+ObjFlags=0x00000000
+
+[1601sub0]
+ParameterName=Number of mapped objects
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=5
+DefaultValue=0x1
+
+[1601sub1]
+ParameterName=1.mapped object
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x30010040
+
+[1602]
+SubNumber=0x02
+ParameterName=Receive PDO3 mapping
+ObjectType=9
+ObjFlags=0x00000000
+
+[1602sub0]
+ParameterName=Number of mapped objects
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=5
+DefaultValue=0x1
+
+[1602sub1]
+ParameterName=1.mapped object
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x30020040
+
+[1603]
+SubNumber=0x02
+ParameterName=Receive PDO4 mapping
+ObjectType=9
+ObjFlags=0x00000000
+
+[1603sub0]
+ParameterName=Number of mapped objects
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=5
+DefaultValue=0x1
+
+[1603sub1]
+ParameterName=1.mapped object
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x30030040
+
+[1800]
+SubNumber=0x05
+ParameterName=Transmit PDO1 parameter
+ObjectType=9
+ObjFlags=0x00000000
+
+[1800sub0]
+ParameterName=Number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x5
+
+[1800sub1]
+ParameterName=COB-ID
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=$NodeID + 0x180
+
+[1800sub2]
+ParameterName=Transmission type
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=255
+
+[1800sub3]
+ParameterName=Inhibit timer
+ObjectType=7
+AccessType=RW
+DataType=0x0006
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=50
+
+[1800sub5]
+ParameterName=Event Timer
+ObjectType=7
+AccessType=RW
+DataType=0x001B
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=0xFFFF
+DefaultValue=0
+
+[1801]
+SubNumber=0x05
+ParameterName=Transmit PDO2 parameter
+ObjectType=9
+ObjFlags=0x00000000
+
+[1801sub0]
+ParameterName=Number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x5
+
+[1801sub1]
+ParameterName=COB-ID
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=$NodeID + 0x280
+
+[1801sub2]
+ParameterName=Transmission type
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=255
+
+[1801sub3]
+ParameterName=Inhibit timer
+ObjectType=7
+AccessType=RW
+DataType=0x0006
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=50
+
+[1801sub5]
+ParameterName=Event Timer
+ObjectType=7
+AccessType=RW
+DataType=0x001B
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=0xFFFF
+DefaultValue=0
+
+[1802]
+SubNumber=0x05
+ParameterName=Transmit PDO3 parameter
+ObjectType=9
+ObjFlags=0x00000000
+
+[1802sub0]
+ParameterName=Number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x5
+
+[1802sub1]
+ParameterName=COB-ID
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=$NodeID + 0x380
+
+[1802sub2]
+ParameterName=Transmission type
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=255
+
+[1802sub3]
+ParameterName=Inhibit timer
+ObjectType=7
+AccessType=RW
+DataType=0x0006
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=50
+
+[1802sub5]
+ParameterName=Event Timer
+ObjectType=7
+AccessType=RW
+DataType=0x001B
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=0xFFFF
+DefaultValue=0
+
+[1803]
+SubNumber=0x05
+ParameterName=Transmit PDO4 parameter
+ObjectType=9
+ObjFlags=0x00000000
+
+[1803sub0]
+ParameterName=Number of entries
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x5
+
+[1803sub1]
+ParameterName=COB-ID
+ObjectType=7
+AccessType=RW
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=$NodeID + 0x480
+
+[1803sub2]
+ParameterName=Transmission type
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=255
+
+[1803sub3]
+ParameterName=Inhibit timer
+ObjectType=7
+AccessType=RW
+DataType=0x0006
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=50
+
+[1803sub5]
+ParameterName=Event Timer
+ObjectType=7
+AccessType=RW
+DataType=0x001B
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=0xFFFF
+DefaultValue=0
+
+[1A00]
+SubNumber=0x02
+ParameterName=Transmit PDO1 mapping
+ObjectType=9
+ObjFlags=0x00000000
+
+[1A00sub0]
+ParameterName=Number of mapped objects
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=4
+DefaultValue=0x1
+
+[1A00sub1]
+ParameterName=1.mapped object
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x30040040
+
+[1A01]
+SubNumber=0x02
+ParameterName=Transmit PDO2 mapping
+ObjectType=9
+ObjFlags=0x00000000
+
+[1A01sub0]
+ParameterName=Number of mapped objects
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=4
+DefaultValue=0x1
+
+[1A01sub1]
+ParameterName=1.mapped object
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x30050040
+
+[1A02]
+SubNumber=0x02
+ParameterName=Transmit PDO3 mapping
+ObjectType=9
+ObjFlags=0x00000000
+
+[1A02sub0]
+ParameterName=Number of mapped objects
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=4
+DefaultValue=0x1
+
+[1A02sub1]
+ParameterName=1.mapped object
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x30060040
+
+[1A03]
+SubNumber=0x02
+ParameterName=Transmit PDO4 mapping
+ObjectType=9
+ObjFlags=0x00000000
+
+[1A03sub0]
+ParameterName=Number of mapped objects
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+LowLimit=0
+HighLimit=4
+DefaultValue=0x1
+
+[1A03sub1]
+ParameterName=1.mapped object
+ObjectType=7
+AccessType=RO
+DataType=0x0007
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x30070040
+
+[2000]
+SubNumber=0x02
+ParameterName=Index 0x2000
+ObjectType=9
+ObjFlags=0x00000000
+
+[2000sub0]
+ParameterName=Set TXPDO inhibit time
+ObjectType=7
+AccessType=RO
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=0x01
+
+[2000sub1]
+ParameterName=TXPDO1 inhibit time
+ObjectType=7
+AccessType=RW
+DataType=0x0005
+PDOMapping=0
+ObjFlags=0x00000000
+DefaultValue=100
+
+[3000]
+ParameterName=64 DI0
+ObjectType=7
+AccessType=RO
+DataType=0x001B
+PDOMapping=1
+ObjFlags=0x00000000
+DefaultValue=0
+
+[3001]
+ParameterName=64 DI1
+ObjectType=7
+AccessType=RO
+DataType=0x001B
+PDOMapping=1
+ObjFlags=0x00000000
+DefaultValue=0x0
+
+[3002]
+ParameterName=64 AI0
+ObjectType=7
+AccessType=RO
+DataType=0x001B
+PDOMapping=1
+ObjFlags=0x00000000
+DefaultValue=0
+
+[3003]
+ParameterName=64 AI1
+ObjectType=7
+AccessType=RO
+DataType=0x001B
+PDOMapping=1
+ObjFlags=0x00000000
+DefaultValue=0x0
+
+[3004]
+ParameterName=64 DO0
+ObjectType=7
+AccessType=RWW
+DataType=0x001B
+PDOMapping=1
+ObjFlags=0x00000000
+DefaultValue=0x0
+
+[3005]
+ParameterName=64 DO1
+ObjectType=7
+AccessType=RWW
+DataType=0x001B
+PDOMapping=1
+ObjFlags=0x00000000
+DefaultValue=0x0
+
+[3006]
+ParameterName=64 AO0
+ObjectType=7
+AccessType=RWW
+DataType=0x001B
+PDOMapping=1
+ObjFlags=0x00000000
+DefaultValue=0x0
+
+[3007]
+ParameterName=64 AO1
+ObjectType=7
+AccessType=RWW
+DataType=0x001B
+PDOMapping=1
+ObjFlags=0x00000000
+DefaultValue=0x0
+
