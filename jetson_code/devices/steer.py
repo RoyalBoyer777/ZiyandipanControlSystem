@@ -4,7 +4,7 @@ import time
 
 #can总线有必要每次初始化一个类的时候都有初始化吗？不太必要，可以在主程序中初始化一次CAN总线对象，然后传递给需要使用的类，这样可以避免重复初始化和资源浪费。或者也可以设计一个单例模式的CAN总线管理类，确保全局只有一个CAN总线实例被创建和使用。
 class SteeringController:
-    def __init__(self, bus):
+    def __init__(self, bus, CAN_ID):
         # 初始化CAN总线
         self.bus = bus
 
@@ -13,8 +13,8 @@ class SteeringController:
         self.rear_packer = VCU_SES_Req()
 
         # CAN ID
-        self.FRONT_ID = 0x169   # 169
-        self.REAR_ID = 0x179    # 179
+        self.CAN_ID = CAN_ID   # 169
+        #self.REAR_ID = 0x179    # 179
 
     # ==========================
     # 发送单帧
@@ -38,29 +38,30 @@ class SteeringController:
         enable: 使能
         """
 
+        angle = max(min(angle, 20.0), -20.0)  # 限幅20
         # ==========================
-        # 前轮
+        # 转向
         # ==========================
-        front_data = self.front_packer.pack(
+        steer_can_data = self.front_packer.pack(
             Tgt_StrAngle=angle,
             Tgt_StrAngleSpd=angle_spd,
             Veh_Spd=veh_spd,
             Enable=enable
         )
 
-        self._send(self.FRONT_ID, front_data)
+        self._send(self.CAN_ID, steer_can_data)
 
-        # ==========================
-        # 后轮（角度取反）
-        # ==========================
-        rear_data = self.rear_packer.pack(
-            Tgt_StrAngle=-angle,   # ⭐关键：反向
-            Tgt_StrAngleSpd=angle_spd,
-            Veh_Spd=veh_spd,
-            Enable=enable
-        )
+        # # ==========================
+        # # 后轮（角度取反）
+        # # ==========================
+        # rear_data = self.rear_packer.pack(
+        #     Tgt_StrAngle=-angle,   # ⭐关键：反向
+        #     Tgt_StrAngleSpd=angle_spd,
+        #     Veh_Spd=veh_spd,
+        #     Enable=enable
+        # )
 
-        self._send(self.REAR_ID, rear_data)
+        # self._send(self.REAR_ID, rear_data)
 
     # ==========================
     # 停止（安全）

@@ -22,7 +22,7 @@ class BrakeController:
     # ==========================
     # 核心更新（每周期调用）
     # ==========================
-    def update(self, parking_button):
+    def apply(self, parking_button):
         """
         parking_button: 来自遥控器（True/False）
         """

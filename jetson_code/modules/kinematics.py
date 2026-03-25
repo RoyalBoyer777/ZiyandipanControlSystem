@@ -12,10 +12,9 @@ class AckermannKinematics:
     def compute(self,
                 ActVel_RL,     # rpm
                 ActVel_RR,     # rpm
-                SteerAngle_FL, # rad（当前版本未使用）
-                SteerAngle_FR, # rad（当前版本未使用）
-                radius):       # 转弯半径
-
+                SteerAngle,     # 前轮转向角度（度）
+                ):       # 转弯半径
+        radius = self.L / math.tan(SteerAngle * math.pi / 180.0)  # 转弯半径（m）
         # ==========================================
         # 1. 速度取绝对值（对标ST）
         # ==========================================
@@ -72,11 +71,11 @@ class AckermannInverseKinematics:
         self.rRR = 0.245      # 右后轮半径
         self.eps = 1e-6
 
-    def compute(self, v_kmh, delta, Dir_LR):
+    def compute(self, v_kmh, delta_rad, Dir_LR):
         """
         v_kmh : 车体速度 km/h
         delta : 等效前轮转角 rad
-        Dir_LR: 转向方向（2=右转，其它默认左转）
+        Dir_LR: 转向方向（0-127左转，128-255右转）
         """
 
         # ==========================================
@@ -92,7 +91,7 @@ class AckermannInverseKinematics:
         # ==========================================
         # 2. 直行情况
         # ==========================================
-        if abs(delta) < self.eps:
+        if abs(delta_rad) < self.eps:
             radius = 1.0e12
             psiDot = 0.0
 
@@ -106,7 +105,7 @@ class AckermannInverseKinematics:
         # 3. 转弯情况
         # ==========================================
         else:
-            radius = abs(self.L / math.tan(delta))   # 自行车模型
+            radius = abs(self.L / math.tan(delta_rad))   # 自行车模型
             psiDot = v_ms / radius                   # 偏航角速度
 
             # Ackermann几何
@@ -120,7 +119,7 @@ class AckermannInverseKinematics:
         # ==========================================
         # 4. 左右方向切换（右转）
         # ==========================================
-        if Dir_LR == 2:
+        if Dir_LR > 127:
             vRL, vRR = vRR, vRL
 
         # ==========================================

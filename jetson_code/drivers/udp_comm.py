@@ -4,81 +4,86 @@ import time
 
 
 class UDPNode:
-    def __init__(self, local_ip, local_port, remote_ip, remote_port, send_period=0.02):
-        """
-        send_period: 发送周期（秒），默认20ms
-        """
-        self.local_addr = (local_ip, local_port)
-        self.remote_addr = (remote_ip, remote_port)
+    def __init__(self, local_ip, local_port, remote_ip, remote_port):
+        # ---------- 网络参数 ----------
+        self.local_ip = local_ip
+        self.local_port = local_port
+        self.remote_ip = remote_ip
+        self.remote_port = remote_port
 
-        self.send_period = send_period
-
+        # ---------- Socket ----------
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind(self.local_addr)
+        self.sock.bind((self.local_ip, self.local_port))
+        self.sock.setblocking(False)
 
+        # ---------- 线程控制 ----------
         self.running = False
 
-        # 发送缓存（线程安全）
-        self.send_data = b''
-        self.lock = threading.Lock()
+        # ---------- 数据区（线程安全） ----------
+        self.tx_lock = threading.Lock()
+        self.rx_lock = threading.Lock()
 
-    # ===============================
-    # 对外接口：更新发送数据
-    # ===============================
-    def update_send_data(self, data: bytes):
-        with self.lock:
-            self.send_data = data
+        self.tx_data = b''
+        self.rx_data = b''
 
-    # ===============================
-    # 发送线程
-    # ===============================
-    def send_loop(self):
-        print("UDP send thread started")
+        # ---------- 回调函数 ----------
+        self.callback = None
+
+    # ================= 对外接口 =================
+
+    def start(self):
+        """启动UDP线程"""
+        self.running = True
+        threading.Thread(target=self._send_loop, daemon=True).start()
+        threading.Thread(target=self._recv_loop, daemon=True).start()
+
+    def stop(self):
+        """停止"""
+        self.running = False
+        self.sock.close()
+
+    def send(self, data: bytes):
+        """发送数据（线程安全）"""
+        with self.tx_lock:
+            self.tx_data = data
+
+    def get_data(self):
+        """获取最新接收数据"""
+        with self.rx_lock:
+            return self.rx_data
+
+    def register_callback(self, func):
+        """注册接收回调函数"""
+        self.callback = func
+
+    # ================= 内部线程 =================
+
+    def _send_loop(self):
         while self.running:
-            with self.lock:
-                data = self.send_data
+            try:
+                with self.tx_lock:
+                    if self.tx_data:
+                        self.sock.sendto(self.tx_data, (self.remote_ip, self.remote_port))
+            except Exception as e:
+                print("Send error:", e)
 
-            if data:
-                try:
-                    self.sock.sendto(data, self.remote_addr)
-                except Exception as e:
-                    print(f"[UDP SEND ERROR] {e}")
+            time.sleep(0.01)  # 10ms周期
 
-            time.sleep(self.send_period)
-
-    # ===============================
-    # 接收线程
-    # ===============================
-    def recv_loop(self):
-        print("UDP recv thread started")
+    def _recv_loop(self):
         while self.running:
             try:
                 data, addr = self.sock.recvfrom(1024)
-                self.handle_recv(data, addr)
+
+                with self.rx_lock:
+                    self.rx_data = data
+
+                # 回调（推荐方式）
+                if self.callback:
+                    self.callback(data, addr)
+
+            except BlockingIOError:
+                pass
             except Exception as e:
-                print(f"[UDP RECV ERROR] {e}")
+                print("Recv error:", e)
 
-    # ===============================
-    # 接收处理（可重写）
-    # ===============================
-    def handle_recv(self, data, addr):
-        print(f"[UDP RX] from {addr}: {data.hex()}")
-
-    # ===============================
-    # 启动
-    # ===============================
-    def start(self):
-        self.running = True
-
-        self.t_send = threading.Thread(target=self.send_loop, daemon=True)
-        self.t_recv = threading.Thread(target=self.recv_loop, daemon=True)
-
-        self.t_send.start()
-        self.t_recv.start()
-
-    # ===============================
-    # 停止
-    # ===============================
-    def stop(self):
-        self.running = False
-        self.sock.close()
+            time.sleep(0.001)

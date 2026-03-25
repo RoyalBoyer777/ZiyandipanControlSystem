@@ -77,9 +77,10 @@ class RemoteNode:
         direction = (fb - 127) / 127.0
         return speed * direction
 
-    def get_steer_cmd(self):
-        lr = self.get_left_right()
-        return (lr - 127) / 127.0
+    def get_steer_cmd(self):  
+        #lr = self.get_left_right()
+        #return (lr - 127) / 127.0
+        return  -20 + self.get_left_right() / 255.0 * 40  #将转向角度限制在-20°到+20°之间
 
     # ==========================
     # 状态汇总

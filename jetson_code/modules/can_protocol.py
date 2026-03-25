@@ -7,21 +7,22 @@ class FB_CAN_CCU:
         pass
 
     def pack(self,
-             CCU_ShiftLevel_Sts,
-             CCU_P_Sts,
-             CCU_Ignition_Sts,
-             CCU_Drive_Mode_Shift,
-             Steering_Wheel_Direction,
-             CCU_Steering_Wheel_Angle,
-             CCU_Vehicle_Speed,
-             CCU_Drive_Mode,
-             Remote_Brake,
-             Emergency_Brake,
-             SCU_Brake_Singal,
-             Left_Turn_Light_Sts,
-             Right_Turn_Light_Sts,
-             Position_Light_Sts,
-             LowBeam_Sts):
+             CCU_ShiftLevel_Sts,  # 底盘档位状态（0~3）
+             CCU_P_Sts,  # 底盘刹车状态
+             CCU_Ignition_Sts,  # VCU点火状态
+             CCU_Drive_Mode_Shift,  # 驾驶模式切换按钮信号
+             Steering_Wheel_Direction,  # 转向方向（左1右.0）
+             CCU_Steering_Wheel_Angle,  # 前轮转角，120对应实际角度27°或24°
+             CCU_Vehicle_Speed,  # 车辆速度，单位km/h，乘以10后放大成整数
+             CCU_Drive_Mode,   # 驾驶模式（0~3）
+             Remote_Brake,  # 遥控器刹车信号
+             Emergency_Brake,   # 紧急刹车信号
+             SCU_Brake_Singal,  # 自动驾驶模式刹车信号
+             Left_Turn_Light_Sts,   # 左转向灯状态
+             Right_Turn_Light_Sts,  # 右转向灯状态
+             Position_Light_Sts,    # 刹车灯状态
+             LowBeam_Sts             # 近光灯状态
+             ):  
 
         # ==========================================
         # 1. 打包64bit
@@ -93,24 +94,24 @@ class FB_CAN_CCU:
         # ==========================================
         # 3. 组完整帧（13字节）由于python发送can时只需要8字节数据区，所以这里直接返回data即可
         # ==========================================
-        return data
-        # TxFrame = [0] * 13
+        
+        TxFrame = [0] * 13
 
-        # # DLC
-        # TxFrame[0] = 0x08
+        # DLC
+        TxFrame[0] = 0x08
 
-        # # CAN ID = 0x51（低字节）
-        # TxFrame[1] = 0x00
-        # TxFrame[2] = 0x00
-        # TxFrame[3] = 0x00
-        # TxFrame[4] = 0x51
+        # CAN ID = 0x51（低字节）
+        TxFrame[1] = 0x00
+        TxFrame[2] = 0x00
+        TxFrame[3] = 0x00
+        TxFrame[4] = 0x51
 
-        # # Data区
-        # for i in range(8):
-        #     TxFrame[5 + i] = data[i]
+        # Data区
+        for i in range(8):
+            TxFrame[5 + i] = data[i]
 
-        #return TxFrame
-    
+        return TxFrame, data
+
 #来自智能驾驶层发送的底盘控制报文解析
 class FB_CAN_SCU_1:
 
