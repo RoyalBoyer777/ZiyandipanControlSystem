@@ -33,14 +33,6 @@ class AutoDriveSystem:
         #udp通信对象（与智能驾驶层通信）
         self.udp_node = udp_node
         self.udp_node.start()
-    
-    def compute_steering_angle(self, steering_cmd):  #从前轮转角计算转向器的转向角度
-        SteeringRad = steering_cmd * 3.1415926 / 180.0 # 转向角度 (弧度)
-        # 轮子角度 -> 拉杆位移
-        RackTravel_mm = self.vehicle_params.Ls_mm * SteeringRad           # 拉杆位移 (mm)
-        # 拉杆位移 -> 转向器角度
-        SteerAngle_deg = (RackTravel_mm / self.vehicle_params.Pitch_mm) * 360.0  # 转向器角度 (度)
-        return SteerAngle_deg
 
 
     def compute_steering_angle_from_scu(self, steering_raw):  #将SCU前轮转角数据值（0-255）转为为转向器的转向角度
@@ -93,12 +85,12 @@ class AutoDriveSystem:
         self.motorL.set_velocity(Wheel_RL_RPM)
         self.motorR.set_velocity(Wheel_RR_RPM)
         self.steerFront.set_steering(
-            angle=self.compute_steering_angle(Steering_wheel_angle_cmd), 
+            angle=Steering_wheel_angle_cmd, 
             angle_spd=100, 
             veh_spd=abs(Vehicle_speed_kmh_cmd), 
             enable=True)
         self.steerRear.set_steering(
-            angle=-self.compute_steering_angle(Steering_wheel_angle_cmd), 
+            angle=-Steering_wheel_angle_cmd, 
             angle_spd=100, 
             veh_spd=abs(Vehicle_speed_kmh_cmd), 
             enable=True)

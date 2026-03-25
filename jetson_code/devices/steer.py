@@ -26,24 +26,32 @@ class SteeringController:
             is_extended_id=False
         )
         self.bus.send(msg)
-
+    def compute_steering_angle(self, steering_cmd):  #从转向角度转换为转向器的转向角度
+        
+        SteeringRad = steering_cmd * 3.1415926 / 180.0 # 转向角度 (弧度)
+        # 轮子角度 -> 拉杆位移
+        RackTravel_mm = self.vehicle_params.Ls_mm * SteeringRad           # 拉杆位移 (mm)
+        # 拉杆位移 -> 转向器角度
+        SteerAngle_deg = (RackTravel_mm / self.vehicle_params.Pitch_mm) * 360.0  # 转向器角度 (度)
+        return SteerAngle_deg
     # ==========================
     # 核心控制接口
     # ==========================
     def set_steering(self, angle, angle_spd, veh_spd, enable):
         """
-        angle: 前轮目标角度（°）
+        angle: 前轮转角 ° 
         angle_spd: 转角速度
         veh_spd: 车速（Byte6）
         enable: 使能
         """
 
         angle = max(min(angle, 20.0), -20.0)  # 限幅20
+        steer_angle = self.compute_steering_angle(angle)  # 转向器转角
         # ==========================
         # 转向
         # ==========================
         steer_can_data = self.front_packer.pack(
-            Tgt_StrAngle=angle,
+            Tgt_StrAngle=steer_angle,
             Tgt_StrAngleSpd=angle_spd,
             Veh_Spd=veh_spd,
             Enable=enable
